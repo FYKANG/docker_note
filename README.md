@@ -135,4 +135,4 @@ $docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
 docker image ls
 ```
 
-![镜像查询](/user/desktop/doge.png)
+![镜像查询](https://github.com/FYKANG/docker_note/raw/master/img/docker_image_ls.png)
