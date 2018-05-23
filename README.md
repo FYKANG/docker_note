@@ -8,6 +8,8 @@
 
 3. [docker安装](#docker安装)
 
+4. [使用镜像](#使用镜像)
+
 ### 学习资料
 
 * [Docker — 从入门到实践](https://yeasy.gitbooks.io/docker_practice/content/)
@@ -78,6 +80,29 @@
   https://docs.docker.com/engine/userguide/
   ```
 
+* **国内镜像加速设置**
+  * Ubuntu 16.04+、Debian 8+、CentOS 7
+    * 对于使用 systemd 的系统，请在 /etc/docker/daemon.json 中写入如下内容（如果文件不存在请新建该文件）
+
+    ```json
+    {
+      "registry-mirrors": [
+        "https://registry.docker-cn.com"
+      ]
+    }
+    ```
+    * 重新启动服务
+
+    ```linux
+    $sudo systemctl daemon-reload
+    $sudo systemctl restart docker
+    ```
+    * 生效测试
+
+    ```linux
+    $docker info
+
+    ```
 * **注意事项**
   * 默认情况下，docker 命令会使用 Unix socket 与 Docker 引擎通讯。而只有 root 用户和 docker 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 root 用户。因此，更好地做法是将需要使用 docker 的用户加入 docker 用户组。
 
@@ -85,6 +110,10 @@
 
     ```linux
     $sudo groupadd docker
+
+    Registry Mirrors:
+    https://registry.docker-cn.com/
+
     ```
 
     * 将当前用户加入 docker 组：
@@ -92,3 +121,18 @@
     ```linux
     $sudo usermod -aG docker $USER
     ```
+
+### 使用镜像
+
+* **镜像获取**
+
+```linux
+$docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
+```
+* **查询镜像**
+
+```linux
+docker image ls
+```
+
+![镜像查询](/user/desktop/doge.png)
