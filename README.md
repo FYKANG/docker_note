@@ -10,6 +10,8 @@
 
 4. [使用镜像](#使用镜像)
 
+5. [镜像定制](#使用 Dockerfile 定制镜像)
+
 ### 学习资料
 
 * [Docker — 从入门到实践](https://yeasy.gitbooks.io/docker_practice/content/)
@@ -129,10 +131,44 @@
 ```linux
 $docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
 ```
+
 * **查询镜像**
 
 ```linux
 docker image ls
 ```
 
-![镜像查询](https://github.com/FYKANG/docker_note/raw/master/img/docker_image_ls.png)
+![查询镜像](https://github.com/FYKANG/docker_note/raw/master/img/docker_image_ls.png)
+
+* **使用Dockerfile定制镜像**
+  * 在一个空白目录中，建立一个文本文件，并命名为 Dockerfile：
+
+  ```linux
+  $mkdir mynginx
+  $cd mynginx
+  $vi Dockerfile
+  ```
+
+  * 内容
+
+  ```docker
+  FROM nginx
+  RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
+  ```
+
+  * 构建镜像
+    * 在 Dockerfile 文件所在目录执行：
+
+    ```linux
+    $docker build -t nginx:v1 .
+    ```
+
+  * 注意事项
+    1. 每一个run都会构建一层镜像，只构建一层镜像的多语句执行语法
+
+    ```docker
+    FROM debian:jessie
+
+    RUN yum vim
+        && yum  install git
+    ```
