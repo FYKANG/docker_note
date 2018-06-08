@@ -12,6 +12,8 @@
 
 5. [镜像定制](#镜像定制)
 
+6. [容器的使用](#容器的使用)
+
 
 ### 学习资料
 
@@ -226,3 +228,59 @@ docker image ls
       * `--retries=<次数>`：当连续失败指定次数后，则将容器状态视为 unhealthy，默认 3 次。
   * ONBUILD
     * ONBUILD 是一个特殊的指令，它后面跟的是其它指令，比如 RUN, COPY 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。
+
+### 容器的使用
+
+* 启动容器
+  * 启动一个 bash 终端，允许用户进行交互。
+
+  ```linux
+  $docker run -t -i ubuntu:14.04
+  ```
+
+  * 其中，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上， -i 则让容器的标准输入保持打开。在交互模式下，用户可以通过所创建的终端来输入命令，例如
+  * 当利用 docker run 来创建容器时，Docker 在后台运行的标准操作包括：
+    * 检查本地是否存在指定的镜像，不存在就从公有仓库下载
+    * 利用镜像创建并启动一个容器
+    * 分配一个文件系统，并在只读的镜像层外面挂载一层可读写层
+    * 从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去
+    * 从地址池配置一个 ip 地址给容器
+    * 执行用户指定的应用程序
+    * 执行完毕后容器被终止
+  * 启动已终止容器
+    `docker container start`
+* 后台运行
+  * 通过添加 -d 参数来实现
+  `docker run -d ubuntu:17.10`
+  * 使用 -d 参数启动后会返回一个唯一的 id，也可以通过 `docker container ls` 命令来查看容器信息。
+  * 要获取容器的输出信息，可以通过 `docker container logs` 命令。
+* 终止容器
+  * `docker container stop`
+  * 进行交互中的容器退出使用`exit`或`Ctrl+d`
+  * 终止状态的容器可以用 `docker container ls -a` 命令查看
+  * 重启容器`docker container restart`
+* 进入容器
+  * `docker attach 243c`其中的`243c`可以通过`docker container ls`查询获的`CONTAINER ID`
+  * `docker exec` 后边可以跟多个参数。
+    * 只使用`-i` 参数，没有分配伪终端，无Linux 命令提示符，但命令执行结果仍然可以返回。
+    * `-i` `-t`参数一起使用时，有 Linux 命令提示符
+    * 更多参数可查看`docker exec --help`
+    * **注意** 如果从这个 stdin 中 `exit`，不会导致容器的停止。
+* 导出和导入容器
+  * 导出容器 `docker export`
+    ```liunx
+    $ docker container ls -a
+    CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                    PORTS               NAMES
+    7691a814370e        ubuntu:14.04        "/bin/bash"         36 hours ago        Exited (0) 21 hours ago                       test
+    $ docker export 7691a814370e > ubuntu.tar
+    ```
+  * 导入容器快照 `docker import`
+    ```linux
+    $ cat ubuntu.tar | docker import - test/ubuntu:v1.0
+    $ docker image ls
+    REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
+    test/ubuntu         v1.0                9d37a6082e97        About a minute ago   171.3 MB
+    ```
+* 删除容器
+  * `docker container rm 容器名称`
+  * 清理所有处于终止状态的容器 `$ docker container prune`
