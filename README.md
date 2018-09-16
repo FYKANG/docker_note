@@ -209,6 +209,10 @@ docker image ls
   * VOLUME 定义匿名卷
     * `VOLUME ["<路径1>", "<路径2>"...]`
     * `VOLUME <路径>`
+    * 示例
+      ```linux
+      --volume /opt/gitlab/config:/etc/gitlab #将容器中的/etc/gitlab挂载到宿主机中的/opt/gitlab/config目录
+      ```
     * 对于数据库类需要保存动态数据的应用，其数据库文件应该保存于卷(volume)中
   * EXPOSE 声明端口
     * 格式为 `EXPOSE <端口1> [<端口2>...]`
