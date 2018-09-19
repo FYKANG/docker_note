@@ -288,3 +288,7 @@ docker image ls
 * 删除容器
   * `docker container rm 容器名称`
   * 清理所有处于终止状态的容器 `$ docker container prune`
+
+### 常用命令
+
+* `sudo docker inspect 容器 #查看容器配置信息`
