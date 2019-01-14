@@ -292,3 +292,13 @@ docker image ls
 ### 常用命令
 
 * `sudo docker inspect 容器 #查看容器配置信息`
+
+### 关于CentOS7配置阿里云加速镜像
+ 你需要的是编辑
+ ```
+ vim /etc/sysconfig/docker
+ ```
+ 修改--registry-mirror=`你的镜像地址`
+ ```
+ OPTIONS='--selinux-enabled --log-driver=journald --registry-mirror=http://xxx.xxx.io'
+ ```
