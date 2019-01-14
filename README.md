@@ -293,8 +293,8 @@ docker image ls
 
 * `sudo docker inspect 容器 #查看容器配置信息`
 
-### 关于CentOS7配置阿里云加速镜像
- 你需要的是编辑
+### 关于CentOS7配置阿里云加速镜像（用官方文档方法失败的话可以用这个方法试试）
+ 编辑
  ```
  vim /etc/sysconfig/docker
  ```
