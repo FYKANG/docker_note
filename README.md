@@ -14,6 +14,8 @@
 
 6. [容器的使用](#容器的使用)
 
+7. [镜像的推送](#镜像的推送)
+
 
 ### 学习资料
 
@@ -288,7 +290,21 @@ docker image ls
 * 删除容器
   * `docker container rm 容器名称`
   * 清理所有处于终止状态的容器 `$ docker container prune`
-
+  
+### 镜像的推送
+  * 登录私有仓库(以阿里云仓库为例)
+  ```
+  docker login --username=***** registry.cn-shengzhen.aliyuncs.com
+  ```
+  * 标记 TAG
+  ```
+  sudo docker tag [ImageId] registry.cn-shenzhen.aliyuncs.com/ykthink/fire:[镜像版本号]
+  ```
+  * 推送镜像
+  ```
+  sudo docker push registry.cn-shenzhen.aliyuncs.com/ykthink/fire:[镜像版本号]
+  ```
+  
 ### 常用命令
 
 * `sudo docker inspect 容器 #查看容器配置信息`
