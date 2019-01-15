@@ -311,11 +311,20 @@ docker image ls
 * `sudo docker logs 容器 #查看容器日志`
 
 ### 关于CentOS7配置阿里云加速镜像（用官方文档方法失败的话可以用这个方法试试）
- 编辑
+ * 编辑
  ```
  vim /etc/sysconfig/docker
  ```
- 修改--registry-mirror=`你的镜像地址`
+ * 修改--registry-mirror=`你的镜像地址`
  ```
  OPTIONS='--selinux-enabled --log-driver=journald --registry-mirror=http://xxx.xxx.io'
  ```
+### 关于配置jenkins要使用的dockerURL连接
+ * 编辑
+ ```
+ vim /etc/sysconfig/docker
+ ```
+ * 添加一行
+ `OPTIONS='-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock'`
+ * 在系统管理->系统设置->Docker Builder->Docker URL填写
+ `tcp://主机ip:2375`
