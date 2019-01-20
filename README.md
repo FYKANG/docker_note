@@ -328,3 +328,20 @@ docker image ls
  `OPTIONS='-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock'`
  * 在系统管理->系统设置->Docker Builder->Docker URL填写
  `tcp://主机ip:2375`
+ ### docker中更新jenkins
+ * 在服务器中下载jenkins的最新war包
+ `wget http://mirrors.jenkins.io/war/latest/jenkins.war`
+ * 将下载的war包cp至容器的usr/download目录中
+ `docker cp jenkins.war ContainerId:/usr/download`
+ * 进入容器
+ `docker exec -it ContainerId /bin/bash`
+ * 查看容器中jenkins war包的位置，并备份原来的war包
+ ```
+ whereis jenkins
+ cd /usr/share/jenkins
+ cp jenkins.war jenkinsBAK.war
+ ```
+ * 将usr/dowanload下的包cp到/usr/share/jenkins下覆盖
+ `cp /usr/download/jenkins.war /usr/share/jenkins`
+ * 重启jenkins，更新到新版本
+ `docker restart ContainerId`
