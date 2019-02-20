@@ -326,6 +326,8 @@ docker image ls
  ```
  * 添加一行
  `OPTIONS='-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock'`
+ * 重启docker
+ `systemctl restart  docker`
  * 在系统管理->系统设置->Docker Builder->Docker URL填写
  `tcp://主机ip:2375`
  ### docker中更新jenkins
