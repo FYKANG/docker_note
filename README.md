@@ -319,15 +319,57 @@ docker image ls
  ```
  OPTIONS='--selinux-enabled --log-driver=journald --registry-mirror=http://xxx.xxx.io'
  ```
-### 关于配置jenkins要使用的dockerURL连接
- * 编辑
+### 关于配置jenkins要使用的dockerURL连接(使用安全的TLS方式部署)
+* 配置服务器公钥与密钥（$HOST部分请用自己的ip地址代替）
+ ```linux
+ $ openssl genrsa -aes256 -out ca-key.pem 4096       # 生成CA私钥
+ #生成CA公钥，也就是证书(注意：Common Name (e.g. server FQDN or YOUR name) []:$HOST)
+ $ openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem
+ $ openssl genrsa -out server-key.pem 4096       # 生成服务器私钥
+ $ openssl req -subj "/CN=$HOST" -sha256 -new -key server-key.pem -out server.csr  # 用私钥生成证书请求文件
+ $ echo subjectAltName = IP:$HOST,IP:127.0.0.1 > extfile.cnf
+ # 将Docker守护程序密钥的扩展使用属性设置为仅用于服务器身份验证：
+ $ echo extendedKeyUsage = serverAuth >> extfile.cnf
+ $ openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf
  ```
- vim /etc/sysconfig/docker
+* 配置客户端证书
+ ```linux
+ $ openssl genrsa -out key.pem 4096      # 客户端私钥
+ $ openssl req -subj '/CN=client' -new -key key.pem -out client.csr      # 客户端证书请求文件
+ # 要使密钥适配客户端身份验证，请创建扩展配置文件：
+ $ echo extendedKeyUsage = clientAuth >> extfile.cnf
+ $ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile.cnf
+ # 删除证书请求文件：
+ $ rm -v client.csr server.csr
+ # 默认的私钥权限太开放了，为了更加的安全，我们需要更改证书的权限，删除写入权限，限制阅读权限（只有你能查看）：
+ $ chmod -v 0400 ca-key.pem key.pem server-key.pem
+ # 证书文件删除其写入权限：
+ $ chmod -v 0444 ca.pem server-cert.pem cert.pem
  ```
- * 添加一行
- `OPTIONS='-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock'`
- * 重启docker
- `systemctl restart  docker`
+* 证书部署
+```linux
+# centos
+$ sudo vi /etc/sysconfig/docker
+    如：OPTIONS='--selinux-enabled --log-driver=journald --tlsverify=true'
+    DOCKER_CERT_PATH=/etc/docker
+$ sudo service docker restart
+
+
+# daemon.json
+$ sudo vi /etc/docker/daemon.json
+{
+  "tlsverify": true,
+  "tlscert": "/var/docker/server-cert.pem",
+  "tlskey": "/var/docker/server-key.pem",
+  "tlscacert": "/var/docker/ca.pem",
+  "hosts": [
+    "tcp://0.0.0.0:2376",
+    "unix:///var/run/docker.sock"
+  ]
+}
+
+$ dockerd
+```
  * 在系统管理->系统设置->Docker Builder->Docker URL填写
  `tcp://主机ip:2375`
  ### docker中更新jenkins
