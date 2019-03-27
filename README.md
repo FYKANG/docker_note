@@ -375,6 +375,7 @@ $ dockerd
  `tcp://主机ip:2376`
  * 配置 Server credentials
   * 选择类型Docker Host Certificate Authentication,将生成的证书如下图填写
+  ![Server credentials配置](https://github.com/FYKANG/docker_note/raw/master/img/jenkins_docker.png)
  ### docker中更新jenkins
  * 在服务器中下载jenkins的最新war包
  `wget http://mirrors.jenkins.io/war/latest/jenkins.war`
