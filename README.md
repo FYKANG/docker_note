@@ -18,12 +18,12 @@
 
 8. [常用命令](#常用命令)
 
-9. [关于CentOS7配置阿里云加速镜像（用官方文档方法失败的话可以用这个方法试试）](#关于CentOS7配置阿里云加速镜像（用官方文档方法失败的话可以用这个方法试试）)
+9. [关于CentOS7配置阿里云加速镜像(用官方文档方法失败的话可以用这个方法试试)](#关于CentOS7配置阿里云加速镜像(用官方文档方法失败的话可以用这个方法试试))
 
 10. [关于配置jenkins要使用的dockerURL连接(使用安全的TLS方式部署)](#关于配置jenkins要使用的dockerURL连接(使用安全的TLS方式部署))
 
 11. [docker中更新jenkins](#docker中更新jenkins)
-### 学习资料
+### 参考资料
 
 * [Docker — 从入门到实践](https://yeasy.gitbooks.io/docker_practice/content/)
 * [远程连接docker daemon，Docker Remote API](https://deepzz.com/post/dockerd-and-docker-remote-api.html)
@@ -317,7 +317,7 @@ docker image ls
 * `sudo docker inspect 容器 #查看容器配置信息`
 * `sudo docker logs 容器 #查看容器日志`
 
-### 关于CentOS7配置阿里云加速镜像（用官方文档方法失败的话可以用这个方法试试）
+### 关于CentOS7配置阿里云加速镜像(用官方文档方法失败的话可以用这个方法试试)
  * 编辑
  ```
  vim /etc/sysconfig/docker
