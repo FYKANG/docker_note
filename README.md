@@ -367,11 +367,14 @@ $ sudo vi /etc/docker/daemon.json
     "unix:///var/run/docker.sock"
   ]
 }
-
+# 启动守护进程
 $ dockerd
 ```
- * 在系统管理->系统设置->Docker Builder->Docker URL填写
- `tcp://主机ip:2375`
+* 配置jenkin
+ * 在系统管理->系统设置->cloud->	Docker Host UR填写
+ `tcp://主机ip:2376`
+ * 配置 Server credentials
+  * 选择类型Docker Host Certificate Authentication,将生成的证书如下图填写
  ### docker中更新jenkins
  * 在服务器中下载jenkins的最新war包
  `wget http://mirrors.jenkins.io/war/latest/jenkins.war`
