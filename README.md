@@ -320,6 +320,8 @@ docker image ls
  OPTIONS='--selinux-enabled --log-driver=journald --registry-mirror=http://xxx.xxx.io'
  ```
 ### 关于配置jenkins要使用的dockerURL连接(使用安全的TLS方式部署)
+* 参考资料
+ * [远程连接docker daemon，Docker Remote API](https://deepzz.com/post/dockerd-and-docker-remote-api.html)
 * 配置服务器公钥与密钥（$HOST部分请用自己的ip地址代替）
  ```linux
  $ openssl genrsa -aes256 -out ca-key.pem 4096       # 生成CA私钥
